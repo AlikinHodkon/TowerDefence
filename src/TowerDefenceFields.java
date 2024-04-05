@@ -12,20 +12,22 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
     int sizeOfSquare = 25;
 
     Square sqr;
-
+    Money money;
     Timer gameloop;
 
     Random random;
 
     ArrayList<Enemy> enemy = new ArrayList<>(1); 
 
-    public ArrayList<Tower> towers = new ArrayList<>();
+    ArrayList<Tower> towers = new ArrayList<>();
 
     Castle castle;
 
-    TowerDefenceFields(int boardHeight, int boardWidth){
+    TowerDefenceFields(int boardHeight, int boardWidth, Money money){
         this.boardHeight = boardHeight;
         this.boardWidth = boardWidth;
+
+        this.money = money;
 
         setPreferredSize(new Dimension(boardWidth, boardHeight));
         setBackground(Color.BLACK);
@@ -81,38 +83,30 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
                 enem.attack(castle);
             }
         }
-        if (castle.health == 0){
+        if (castle.getHealth() == 0){
             gameloop.stop();
         }
         if (!towers.isEmpty() && !enemy.isEmpty()){
+            boolean kill = false;
             for (Tower t : towers) {
                 for (Enemy enem : enemy) {
-                    int n = 0;
                     if (t.attack(enem)){
-                        enemy.remove(n);
+                        enemy.remove(enem);
+                        kill = true;
                         break;
-                        //Проблема в изменении длины списка
                     }
-                    n++;
+                }
+                if (kill){
+                    kill = false;
+                    money.setMoney(money.getMoney()+5);
+                    money.changeMoney();
+                    if (enemy.size() < 30){
+                        enemy.add(new Enemy(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                        enemy.add(new Enemy(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                    }
                 }
             }
         }
         repaint();
-    }
-}
-
-class Square{
-    int sizeOfSquare = 25;
-    Square(){
-    }
-    public void drawWayVertical(Graphics g, int startX, int fromY, int toY){
-        for (int i = fromY; i < toY; i++){
-            g.fillRect(startX*sizeOfSquare, i*sizeOfSquare, sizeOfSquare, sizeOfSquare);
-        }
-    }
-    public void drawWayHorizontal(Graphics g, int startY, int fromX, int toX){
-        for (int i = fromX; i < toX; i++){
-            g.fillRect(i*sizeOfSquare, startY*sizeOfSquare, sizeOfSquare, sizeOfSquare);
-        }
     }
 }

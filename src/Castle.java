@@ -1,9 +1,15 @@
 import java.awt.Graphics;
 
 public class Castle{
-    public int health = 3;
+    int health = 1;
     int sizeOfSquare = 25;
-    public Castle(int health){
+    Castle(int health){
+        this.health = health;
+    }
+    public int getHealth(){
+        return health;
+    }
+    public void setHealth(int health){
         this.health = health;
     }
     public void draw(Graphics g){

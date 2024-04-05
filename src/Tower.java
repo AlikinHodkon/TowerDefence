@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 public class Tower extends JComponent{
     int sizeOfSquare = 25;
+    int cost = 25;
     int xPos, yPos, radiusX1, radiusX2, radiusY1, radiusY2; 
     public Tower(int xPos, int yPos){
         this.xPos = xPos;
@@ -24,9 +25,12 @@ public class Tower extends JComponent{
         g.fillRect(xPos, yPos, sizeOfSquare, sizeOfSquare);
     }
     public boolean attack(Enemy enem){
-        if ((enem.xPos <= radiusX1 && enem.xPos >= radiusX2) && (enem.yPos <= radiusY1 && enem.yPos >= radiusY2)){
+        if ((enem.getxPos() <= radiusX1 && enem.getxPos() >= radiusX2) && (enem.getyPos() <= radiusY1 && enem.getyPos() >= radiusY2)){
             return true;
         }
         return false;
+    }
+    public int getCost(){
+        return cost;
     }
 }

@@ -1,8 +1,8 @@
 import java.awt.Graphics;
 
 public class Enemy {
-    public int xPos;
-    public int yPos;
+    int xPos;
+    int yPos;
     int speed;
     int sizeOfArc = 25;
     Enemy(int xPos, int yPos, int speed){
@@ -34,10 +34,16 @@ public class Enemy {
     }
     public void attack(Castle castle){
         if (xPos == 7*25 && yPos == 20*25){
-            castle.health -= 1;
+            castle.setHealth(castle.getHealth()-1);
         }
     }
     public void draw(Graphics g){
         g.fillArc(xPos, yPos, sizeOfArc, sizeOfArc, 0, 360);
+    }
+    public int getxPos(){
+        return xPos;
+    }
+    public int getyPos(){
+        return yPos;
     }    
 }
