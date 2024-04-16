@@ -1,14 +1,18 @@
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Enemy {
     int xPos;
     int yPos;
     int speed;
-    int sizeOfArc = 25;
+    int sizeOfArc;
+    String color;
     Enemy(int xPos, int yPos, int speed){
         this.xPos = xPos;
         this.yPos = yPos;
         this.speed = speed;
+        sizeOfArc = 25;
+        color = "blue";
     }
     public void move(){
         if (xPos != 5*sizeOfArc && yPos == 5*sizeOfArc){
@@ -38,6 +42,7 @@ public class Enemy {
         }
     }
     public void draw(Graphics g){
+        g.setColor(Color.BLUE);
         g.fillArc(xPos, yPos, sizeOfArc, sizeOfArc, 0, 360);
     }
     public int getxPos(){
@@ -45,5 +50,8 @@ public class Enemy {
     }
     public int getyPos(){
         return yPos;
+    }
+    public String getColor(){
+        return color;
     }    
 }

@@ -7,7 +7,10 @@ import java.awt.event.MouseListener;
 import javax.swing.*;
 
 public class App{
-    static boolean isPressed = false;
+    static boolean isRedPressed = false;
+    static boolean isBluePressed = false;
+    static boolean isPurplePressed = false;
+    static boolean isWhitePressed = false;
     public static void main(String[] args) throws Exception {
         int boardWidth = 800;
         int boardHeight = 600;
@@ -25,23 +28,55 @@ public class App{
         money.setBackground(Color.BLACK);
         money.setForeground(Color.RED);
         tw.add(money);
-        JButton button = new JButton("Tower");
-        tw.add(button);
-        ActionListener twa = new TowerButtonAction();
-        button.addActionListener(twa);
+        JButton buttonRed = new JButton("TowerRed");
+        tw.add(buttonRed);
+        ActionListener twaRed = new TowerButtonRedAction();
+        buttonRed.addActionListener(twaRed);
+        JButton buttonBlue = new JButton("TowerBlue");
+        tw.add(buttonBlue);
+        ActionListener twaBlue = new TowerButtonBlueAction();
+        buttonBlue.addActionListener(twaBlue);
+        JButton buttonPurple = new JButton("TowerPurple");
+        tw.add(buttonPurple);
+        ActionListener twaPurple = new TowerButtonPurpleAction();
+        buttonPurple.addActionListener(twaPurple);
+        JButton buttonWhite = new JButton("TowerWhite");
+        tw.add(buttonWhite);
+        ActionListener twaWhite = new TowerButtonWhiteAction();
+        buttonWhite.addActionListener(twaWhite);         
         class MouseClickAction implements MouseListener{
 
             @Override
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX();
                 int y = e.getY();
-                if (getisPressed() && money.getMoney() >= 25){
-                    Tower tower = new Tower(x, y);
-                    money.setMoney(money.getMoney()-tower.getCost());
-                    money.changeMoney();
-                    tw.add(tower);
-                    tw.towers.add(tower);
-                    tw.repaint();
+                if (money.getMoney() >= 25){
+                    Tower tower;
+                    if (getisRedPressed()){
+                        tower = new TowerRed(x, y);
+                        money.setMoney(money.getMoney()-tower.getCost());
+                        money.changeMoney();
+                        tw.towers.add(tower);
+                        tw.repaint();
+                    } else if (getisBluePressed()){
+                        tower = new TowerBlue(x, y);
+                        money.setMoney(money.getMoney()-tower.getCost());
+                        money.changeMoney();
+                        tw.towers.add(tower);
+                        tw.repaint();
+                    } else if (getisPurplePressed()){
+                        tower = new TowerPurple(x, y);
+                        money.setMoney(money.getMoney()-tower.getCost());
+                        money.changeMoney();
+                        tw.towers.add(tower);
+                        tw.repaint();
+                    } else if (getisWhitePressed()){
+                        tower = new TowerWhite(x, y);
+                        money.setMoney(money.getMoney()-tower.getCost());
+                        money.changeMoney();
+                        tw.towers.add(tower);
+                        tw.repaint();
+                    }
                 }
             }
 
@@ -59,23 +94,85 @@ public class App{
         frame.pack();
     }
 
-    static public boolean getisPressed(){
-        return isPressed;
+    static public boolean getisRedPressed(){
+        return isRedPressed;
     }
 
-    static public void setisPressed(boolean newPressed){
-        isPressed = newPressed;
+    static public void setisRedPressed(boolean newPressed){
+        isRedPressed = newPressed;
+    }
+    static public boolean getisBluePressed(){
+        return isBluePressed;
+    }
+
+    static public void setisBluePressed(boolean newPressed){
+        isBluePressed = newPressed;
+    }
+    static public boolean getisPurplePressed(){
+        return isPurplePressed;
+    }
+
+    static public void setisPurplePressed(boolean newPressed){
+        isPurplePressed = newPressed;
+    }
+    static public boolean getisWhitePressed(){
+        return isWhitePressed;
+    }
+
+    static public void setisWhitePressed(boolean newPressed){
+        isWhitePressed = newPressed;
     }
 }
 
-class TowerButtonAction implements ActionListener{ 
+class TowerButtonRedAction implements ActionListener{ 
 public void actionPerformed(ActionEvent event)
     {
-        if (!App.getisPressed()){
-            App.setisPressed(true);
+        if (!App.getisRedPressed()){
+            App.setisRedPressed(true);
+            App.setisBluePressed(false);
+            App.setisPurplePressed(false);
+            App.setisWhitePressed(false);
         }else{
-            App.setisPressed(false);
+            App.setisRedPressed(false);
         }
     }      
 }
-
+class TowerButtonBlueAction implements ActionListener{ 
+public void actionPerformed(ActionEvent event)
+    {
+        if (!App.getisBluePressed()){
+            App.setisBluePressed(true);
+            App.setisRedPressed(false);
+            App.setisPurplePressed(false);
+            App.setisWhitePressed(false);
+        }else{
+            App.setisBluePressed(false);
+        }
+    }      
+}
+class TowerButtonPurpleAction implements ActionListener{ 
+public void actionPerformed(ActionEvent event)
+    {
+        if (!App.getisPurplePressed()){
+            App.setisPurplePressed(true);
+            App.setisRedPressed(false);
+            App.setisBluePressed(false);
+            App.setisWhitePressed(false);
+        }else{
+            App.setisPurplePressed(false);
+        }
+    }      
+}
+class TowerButtonWhiteAction implements ActionListener{ 
+public void actionPerformed(ActionEvent event)
+    {
+        if (!App.getisWhitePressed()){
+            App.setisWhitePressed(true);
+            App.setisRedPressed(false);
+            App.setisBluePressed(false);
+            App.setisPurplePressed(false);
+        }else{
+            App.setisWhitePressed(false);
+        }
+    }      
+}

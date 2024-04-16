@@ -60,7 +60,6 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
         sqr.drawWayVertical(g, 26, 10, 20);
         sqr.drawWayHorizontal(g, 20, 8, 27);
 
-        g.setColor(Color.BLUE);
         if (!enemy.isEmpty()){
             for (Enemy enem : enemy) {
                 enem.draw(g);
