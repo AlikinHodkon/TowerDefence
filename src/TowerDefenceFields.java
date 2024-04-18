@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.swing.*;
 
@@ -14,8 +13,6 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
     Square sqr;
     Money money;
     Timer gameloop;
-
-    Random random;
 
     ArrayList<Enemy> enemy = new ArrayList<>(1); 
 
@@ -36,7 +33,7 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
 
         castle = new Castle(3);
 
-        enemy.add(new Enemy(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+        enemy.add(new EnemyRed(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
         gameloop = new Timer(100, this);
         gameloop.start();
     }
@@ -100,8 +97,31 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
                     money.setMoney(money.getMoney()+5);
                     money.changeMoney();
                     if (enemy.size() < 30){
-                        enemy.add(new Enemy(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
-                        enemy.add(new Enemy(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                        switch ((int)(Math.random() * 6)+1) {
+                            case 1:
+                                enemy.add(new EnemyRed(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                                break;
+                            case 2:
+                                enemy.add(new EnemyBlue(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                                break;
+                            case 3:
+                                enemy.add(new EnemyPurple(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                                break;
+                            case 4:
+                                enemy.add(new EnemyRed(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                                enemy.add(new EnemyRed(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                                break;
+                            case 5:
+                                enemy.add(new EnemyBlue(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                                enemy.add(new EnemyBlue(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                                break;
+                            case 6:
+                                enemy.add(new EnemyPurple(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                                enemy.add(new EnemyPurple(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
             }
