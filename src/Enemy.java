@@ -48,7 +48,7 @@ public abstract class Enemy extends GameObject implements Killable{
         this.health = health;
     }
     public boolean isDead(){
-        if (health == 0) return true;
+        if (health <= 0) return true;
         else return false;
     }
     public abstract void draw(Graphics g);
