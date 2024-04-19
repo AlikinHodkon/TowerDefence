@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class TowerDefenceFields extends JPanel implements ActionListener {
-    private int boardWidth;
-    private int boardHeight;
     private int sizeOfSquare = 25;
     private int progressHealth = 1;
     private int kills = 0;
@@ -20,11 +18,9 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
 
     private ArrayList<Tower> towers = new ArrayList<>();
 
-    Castle castle;
+    private Castle castle;
 
     TowerDefenceFields(int boardHeight, int boardWidth, Money money){
-        this.boardHeight = boardHeight;
-        this.boardWidth = boardWidth;
         this.money = money;
         setPreferredSize(new Dimension(boardWidth, boardHeight));
         setBackground(Color.BLACK);
