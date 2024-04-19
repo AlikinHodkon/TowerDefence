@@ -6,19 +6,19 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class TowerDefenceFields extends JPanel implements ActionListener {
-    int boardWidth;
-    int boardHeight;
-    int sizeOfSquare = 25;
-    int progressHealth = 1;
-    int kills = 0;
+    private int boardWidth;
+    private int boardHeight;
+    private int sizeOfSquare = 25;
+    private int progressHealth = 1;
+    private int kills = 0;
 
-    Road road;
-    Money money;
-    Timer gameloop;
+    private Road road;
+    private Money money;
+    private Timer gameloop;
 
-    ArrayList<Enemy> enemy = new ArrayList<>(1); 
+    private ArrayList<Enemy> enemy = new ArrayList<>(1); 
 
-    ArrayList<Tower> towers = new ArrayList<>();
+    private ArrayList<Tower> towers = new ArrayList<>();
 
     Castle castle;
 
@@ -65,6 +65,10 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
                 t.draw(g);
             }
         }
+    }
+
+    public void towersAdd(Tower tower){
+        towers.add(tower);
     }
 
     @Override

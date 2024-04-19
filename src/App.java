@@ -7,10 +7,10 @@ import java.awt.event.MouseListener;
 import javax.swing.*;
 
 public class App{
-    static boolean isRedPressed = false;
-    static boolean isBluePressed = false;
-    static boolean isPurplePressed = false;
-    static boolean isWhitePressed = false;
+    private static boolean isRedPressed = false;
+    private static boolean isBluePressed = false;
+    private static boolean isPurplePressed = false;
+    private static boolean isWhitePressed = false;
     public static void main(String[] args) throws Exception {
         int boardWidth = 800;
         int boardHeight = 600;
@@ -96,26 +96,26 @@ class MouseClickAction implements MouseListener{
                 tower = new TowerRed(x, y);
                 money.setMoney(money.getMoney()-tower.getCost());
                 money.changeMoney();
-                tw.towers.add(tower);
+                tw.towersAdd(tower);
                 tw.repaint();
             } else if (App.getisBluePressed()){
                 tower = new TowerBlue(x, y);
                 money.setMoney(money.getMoney()-tower.getCost());
                 money.changeMoney();
-                tw.towers.add(tower);
+                tw.towersAdd(tower);
                 tw.repaint();
             } else if (App.getisPurplePressed()){
                 tower = new TowerPurple(x, y);
                 money.setMoney(money.getMoney()-tower.getCost());
                 money.changeMoney();
-                tw.towers.add(tower);
+                tw.towersAdd(tower);
                 tw.repaint();
             } else if (money.getMoney() >= 100){
                 if (App.getisWhitePressed()){
                     tower = new TowerWhite(x, y);
                     money.setMoney(money.getMoney()-tower.getCost());
                     money.changeMoney();
-                    tw.towers.add(tower);
+                    tw.towersAdd(tower);
                     tw.repaint();
                 }
             }
