@@ -2,17 +2,24 @@ import javax.swing.*;
 
 import java.awt.Graphics;
 
-public abstract class Tower extends JComponent{
-    int sizeOfSquare;
+public abstract class Tower extends GameObject{
     int cost;
-    int xPos, yPos, radiusX1, radiusX2, radiusY1, radiusY2;
-    String color; 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-    }
+    int radiusX1, radiusX2, radiusY1, radiusY2;
+    Timer timer; 
+    boolean shoot;
+    int xPos, yPos;
+    String color;
     public abstract void draw(Graphics g);
-    public abstract boolean attack(Enemy enem);
-    public abstract int getCost();
+    public boolean attack(Enemy enem){
+        if ((enem.getxPos() <= radiusX1 && enem.getxPos() >= radiusX2) && (enem.getyPos() <= radiusY1 && enem.getyPos() >= radiusY2) && colorEquals(enem) && shoot){
+            shoot = false;
+            timer.start();
+            return true;
+        }
+        return false;
+    }
+    public int getCost(){
+        return cost;
+    }
     public abstract boolean colorEquals(Enemy enem);
 }

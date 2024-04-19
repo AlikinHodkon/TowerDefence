@@ -9,8 +9,10 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
     int boardWidth;
     int boardHeight;
     int sizeOfSquare = 25;
+    int progressHealth = 1;
+    int kills = 0;
 
-    Square sqr;
+    Road road;
     Money money;
     Timer gameloop;
 
@@ -23,17 +25,15 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
     TowerDefenceFields(int boardHeight, int boardWidth, Money money){
         this.boardHeight = boardHeight;
         this.boardWidth = boardWidth;
-
         this.money = money;
-
         setPreferredSize(new Dimension(boardWidth, boardHeight));
         setBackground(Color.BLACK);
 
-        sqr = new Square();
+        road = new Road();
 
         castle = new Castle(3);
 
-        enemy.add(new EnemyRed(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+        enemy.add(new EnemyRed(32*sizeOfSquare, 5*sizeOfSquare, progressHealth));
         gameloop = new Timer(100, this);
         gameloop.start();
     }
@@ -44,26 +44,22 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
     }
 
     public void draw(Graphics g){
-        for (int i = 0; i < boardWidth/sizeOfSquare; i++){
-            g.drawLine(i*sizeOfSquare, 0, i*sizeOfSquare, boardHeight);
-            g.drawLine(0, i*sizeOfSquare, boardWidth, i*sizeOfSquare);
-        }
+        // Сетка
+        // for (int i = 0; i < boardWidth/sizeOfSquare; i++){
+        //     g.drawLine(i*sizeOfSquare, 0, i*sizeOfSquare, boardHeight);
+        //     g.drawLine(0, i*sizeOfSquare, boardWidth, i*sizeOfSquare);
+        // }
         
-        g.setColor(Color.YELLOW);
-
-        sqr.drawWayHorizontal(g, 5, 5, 32);
-        sqr.drawWayVertical(g, 5, 6, 10);
-        sqr.drawWayHorizontal(g, 10, 5, 26);
-        sqr.drawWayVertical(g, 26, 10, 20);
-        sqr.drawWayHorizontal(g, 20, 8, 27);
+        road.draw(g);
 
         if (!enemy.isEmpty()){
             for (Enemy enem : enemy) {
                 enem.draw(g);
             }
         }
-        g.setColor(Color.GREEN);
+
         castle.draw(g);
+
         if (!towers.isEmpty()){
             for (Tower t : towers) {
                 t.draw(g);
@@ -79,7 +75,7 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
                 enem.attack(castle);
             }
         }
-        if (castle.getHealth() == 0){
+        if (castle.isDead()){
             gameloop.stop();
         }
         if (!towers.isEmpty() && !enemy.isEmpty()){
@@ -87,9 +83,14 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
             for (Tower t : towers) {
                 for (Enemy enem : enemy) {
                     if (t.attack(enem)){
-                        enemy.remove(enem);
-                        kill = true;
-                        break;
+                        enem.setHealth(enem.getHealth()-1);
+                        if (enem.isDead()){
+                            enemy.remove(enem);
+                            kill = true;
+                            kills++;
+                            if (kills % 30 == 0) progressHealth++;
+                            break;
+                        }
                     }
                 }
                 if (kill){
@@ -99,25 +100,25 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
                     if (enemy.size() < 30){
                         switch ((int)(Math.random() * 6)+1) {
                             case 1:
-                                enemy.add(new EnemyRed(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                                enemy.add(new EnemyRed(32*sizeOfSquare, 5*sizeOfSquare, progressHealth));
                                 break;
                             case 2:
-                                enemy.add(new EnemyBlue(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                                enemy.add(new EnemyBlue(32*sizeOfSquare, 5*sizeOfSquare, progressHealth));
                                 break;
                             case 3:
-                                enemy.add(new EnemyPurple(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                                enemy.add(new EnemyPurple(32*sizeOfSquare, 5*sizeOfSquare, progressHealth));
                                 break;
                             case 4:
-                                enemy.add(new EnemyRed(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
-                                enemy.add(new EnemyRed(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                                enemy.add(new EnemyRed(32*sizeOfSquare, 5*sizeOfSquare, progressHealth));
+                                enemy.add(new EnemyRed(32*sizeOfSquare, 5*sizeOfSquare, progressHealth));
                                 break;
                             case 5:
-                                enemy.add(new EnemyBlue(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
-                                enemy.add(new EnemyBlue(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                                enemy.add(new EnemyBlue(32*sizeOfSquare, 5*sizeOfSquare, progressHealth));
+                                enemy.add(new EnemyBlue(32*sizeOfSquare, 5*sizeOfSquare, progressHealth));
                                 break;
                             case 6:
-                                enemy.add(new EnemyPurple(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
-                                enemy.add(new EnemyPurple(32*sizeOfSquare, 5*sizeOfSquare, sizeOfSquare));
+                                enemy.add(new EnemyPurple(32*sizeOfSquare, 5*sizeOfSquare, progressHealth));
+                                enemy.add(new EnemyPurple(32*sizeOfSquare, 5*sizeOfSquare, progressHealth));
                                 break;
                             default:
                                 break;

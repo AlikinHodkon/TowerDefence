@@ -1,8 +1,8 @@
 import javax.swing.JTextPane;
 
 public class Money extends JTextPane{
-    int money = 50;
-    Money(){super();}
+    int money;
+    Money(int money){super(); this.money = money;}
     public void changeMoney(){
         setText("Money: "+getMoney());
     }

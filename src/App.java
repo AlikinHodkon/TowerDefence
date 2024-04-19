@@ -21,7 +21,7 @@ public class App{
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Money money = new Money();
+        Money money = new Money(75);
         TowerDefenceFields tw = new TowerDefenceFields(boardHeight, boardWidth, money);
         frame.add(tw);
         money.changeMoney();
@@ -44,52 +44,7 @@ public class App{
         tw.add(buttonWhite);
         ActionListener twaWhite = new TowerButtonWhiteAction();
         buttonWhite.addActionListener(twaWhite);         
-        class MouseClickAction implements MouseListener{
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int x = e.getX();
-                int y = e.getY();
-                if (money.getMoney() >= 25){
-                    Tower tower;
-                    if (getisRedPressed()){
-                        tower = new TowerRed(x, y);
-                        money.setMoney(money.getMoney()-tower.getCost());
-                        money.changeMoney();
-                        tw.towers.add(tower);
-                        tw.repaint();
-                    } else if (getisBluePressed()){
-                        tower = new TowerBlue(x, y);
-                        money.setMoney(money.getMoney()-tower.getCost());
-                        money.changeMoney();
-                        tw.towers.add(tower);
-                        tw.repaint();
-                    } else if (getisPurplePressed()){
-                        tower = new TowerPurple(x, y);
-                        money.setMoney(money.getMoney()-tower.getCost());
-                        money.changeMoney();
-                        tw.towers.add(tower);
-                        tw.repaint();
-                    } else if (getisWhitePressed()){
-                        tower = new TowerWhite(x, y);
-                        money.setMoney(money.getMoney()-tower.getCost());
-                        money.changeMoney();
-                        tw.towers.add(tower);
-                        tw.repaint();
-                    }
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {}
-            @Override
-            public void mouseReleased(MouseEvent e) {}
-            @Override
-            public void mouseEntered(MouseEvent e) {}
-            @Override
-            public void mouseExited(MouseEvent e) {}
-        }
-        MouseClickAction mouse = new MouseClickAction();
+        MouseClickAction mouse = new MouseClickAction(tw, money);
         tw.addMouseListener(mouse);
         frame.pack();
     }
@@ -124,6 +79,58 @@ public class App{
     }
 }
 
+class MouseClickAction implements MouseListener{
+    Money money;
+    TowerDefenceFields tw;
+    MouseClickAction(TowerDefenceFields tw, Money money){
+        this.tw = tw;
+        this.money = money;
+    }
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int x = e.getX();
+        int y = e.getY();
+        if (money.getMoney() >= 25){
+            Tower tower;
+            if (App.getisRedPressed()){
+                tower = new TowerRed(x, y);
+                money.setMoney(money.getMoney()-tower.getCost());
+                money.changeMoney();
+                tw.towers.add(tower);
+                tw.repaint();
+            } else if (App.getisBluePressed()){
+                tower = new TowerBlue(x, y);
+                money.setMoney(money.getMoney()-tower.getCost());
+                money.changeMoney();
+                tw.towers.add(tower);
+                tw.repaint();
+            } else if (App.getisPurplePressed()){
+                tower = new TowerPurple(x, y);
+                money.setMoney(money.getMoney()-tower.getCost());
+                money.changeMoney();
+                tw.towers.add(tower);
+                tw.repaint();
+            } else if (money.getMoney() >= 100){
+                if (App.getisWhitePressed()){
+                    tower = new TowerWhite(x, y);
+                    money.setMoney(money.getMoney()-tower.getCost());
+                    money.changeMoney();
+                    tw.towers.add(tower);
+                    tw.repaint();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {}
+    @Override
+    public void mouseReleased(MouseEvent e) {}
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+    @Override
+    public void mouseExited(MouseEvent e) {}
+}
 class TowerButtonRedAction implements ActionListener{ 
 public void actionPerformed(ActionEvent event)
     {

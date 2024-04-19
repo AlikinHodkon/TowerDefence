@@ -1,11 +1,11 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
 
 public class TowerRed extends Tower{
-    int sizeOfSquare;
-    int cost;
-    int xPos, yPos, radiusX1, radiusX2, radiusY1, radiusY2;
-    String color; 
     public TowerRed(int xPos, int yPos){
         sizeOfSquare = 25;
         cost = 25;
@@ -16,24 +16,20 @@ public class TowerRed extends Tower{
         radiusY1 = yPos+sizeOfSquare*2;
         radiusY2 = yPos-sizeOfSquare*2;
         color = "red";
-    }
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        draw(g);
+        shoot = true;
+        timer = new Timer(150, new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                shoot = true;
+                timer.stop();
+            }
+    
+        });
     }
     public void draw(Graphics g){
         g.setColor(Color.RED);
         g.fillRect(xPos, yPos, sizeOfSquare, sizeOfSquare);
-    }
-    public boolean attack(Enemy enem){
-        if ((enem.getxPos() <= radiusX1 && enem.getxPos() >= radiusX2) && (enem.getyPos() <= radiusY1 && enem.getyPos() >= radiusY2) && colorEquals(enem)){
-            return true;
-        }
-        return false;
-    }
-    public int getCost(){
-        return cost;
     }
     public boolean colorEquals(Enemy enem){
         if (color.equals(enem.getColor())) return true;
