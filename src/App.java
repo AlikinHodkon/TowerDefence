@@ -43,7 +43,11 @@ public class App{
         JButton buttonWhite = new JButton("TowerWhite");
         tw.add(buttonWhite);
         ActionListener twaWhite = new TowerButtonWhiteAction();
-        buttonWhite.addActionListener(twaWhite);         
+        buttonWhite.addActionListener(twaWhite);
+        JButton restartButton = new JButton("Restart");
+        tw.add(restartButton);
+        ActionListener restart = new Restart(frame, tw, boardHeight, boardWidth);
+        restartButton.addActionListener(restart);         
         MouseClickAction mouse = new MouseClickAction(tw, money);
         tw.addMouseListener(mouse);
         frame.pack();
@@ -182,4 +186,51 @@ public void actionPerformed(ActionEvent event)
             App.setisWhitePressed(false);
         }
     }      
+}
+class Restart implements ActionListener{
+    JFrame frame;
+    TowerDefenceFields tw;
+    int boardHeight, boardWidth;
+    Restart(JFrame frame, TowerDefenceFields tw, int boardHeight, int boardWidth){
+        this.frame = frame;
+        this.tw = tw;
+        this.boardHeight = boardHeight;
+        this.boardWidth = boardWidth;
+    }
+public void actionPerformed(ActionEvent event){
+    App.setisRedPressed(false);
+    App.setisBluePressed(false);
+    App.setisPurplePressed(false);
+    App.setisWhitePressed(false);
+    frame.remove(tw);
+    Money money = new Money(75);
+    TowerDefenceFields tw = new TowerDefenceFields(boardHeight, boardWidth, money);
+    frame.add(tw);
+    money.changeMoney();
+    money.setBackground(Color.BLACK);
+    money.setForeground(Color.RED);
+    tw.add(money);
+    JButton buttonRed = new JButton("TowerRed");
+    tw.add(buttonRed);
+    ActionListener twaRed = new TowerButtonRedAction();
+    buttonRed.addActionListener(twaRed);
+    JButton buttonBlue = new JButton("TowerBlue");
+    tw.add(buttonBlue);
+    ActionListener twaBlue = new TowerButtonBlueAction();
+    buttonBlue.addActionListener(twaBlue);
+    JButton buttonPurple = new JButton("TowerPurple");
+    tw.add(buttonPurple);
+    ActionListener twaPurple = new TowerButtonPurpleAction();
+    buttonPurple.addActionListener(twaPurple);
+    JButton buttonWhite = new JButton("TowerWhite");
+    tw.add(buttonWhite);
+    ActionListener twaWhite = new TowerButtonWhiteAction();
+    buttonWhite.addActionListener(twaWhite);
+    JButton restartButton = new JButton("Restart");
+    tw.add(restartButton);
+    ActionListener restart = new Restart(frame, tw, boardHeight, boardHeight);
+    restartButton.addActionListener(restart);         
+    MouseClickAction mouse = new MouseClickAction(tw, money);
+    tw.addMouseListener(mouse);
+}
 }

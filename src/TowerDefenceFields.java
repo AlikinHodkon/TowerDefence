@@ -9,6 +9,8 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
     private int sizeOfSquare = 25;
     private int progressHealth = 1;
     private int kills = 0;
+    private int boardHeight;
+
 
     private Road road;
     private Money money;
@@ -22,6 +24,8 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
 
     TowerDefenceFields(int boardHeight, int boardWidth, Money money){
         this.money = money;
+        this.boardHeight = boardHeight;
+        
         setPreferredSize(new Dimension(boardWidth, boardHeight));
         setBackground(Color.BLACK);
 
@@ -45,7 +49,7 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
         //     g.drawLine(i*sizeOfSquare, 0, i*sizeOfSquare, boardHeight);
         //     g.drawLine(0, i*sizeOfSquare, boardWidth, i*sizeOfSquare);
         // }
-        
+
         road.draw(g);
 
         if (!enemy.isEmpty()){
@@ -61,10 +65,21 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
                 t.draw(g);
             }
         }
+
+        if (!gameloop.isRunning()){
+            g.setColor(new Color(180, 0, 0));
+            g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 140));
+            g.drawString("Game Over", sizeOfSquare+12, boardHeight/2);
+        }
+
     }
 
     public void towersAdd(Tower tower){
         towers.add(tower);
+    }
+
+    public boolean getGameLoopStatus(){
+        return gameloop.isRunning();
     }
 
     @Override
@@ -77,6 +92,7 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
         }
         if (castle.isDead()){
             gameloop.stop();
+            repaint();
         }
         if (!towers.isEmpty() && !enemy.isEmpty()){
             boolean kill = false;

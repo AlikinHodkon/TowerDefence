@@ -1,5 +1,10 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class EnemyRed extends Enemy {
     EnemyRed(int xPos, int yPos, int health){
@@ -11,7 +16,13 @@ public class EnemyRed extends Enemy {
         color = "red";
     }
     public void draw(Graphics g){
-        g.setColor(Color.RED);
-        g.fillArc(xPos, yPos, sizeOfSquare, sizeOfSquare, 0, 360);
+        Image image = null;
+        try {
+            image = ImageIO.read(new File("cocodemon.png"));
+        } catch (IOException e) {
+            g.setColor(Color.RED);
+            g.fillArc(xPos, yPos, sizeOfSquare, sizeOfSquare, 0, 360);
+        }
+        g.drawImage(image, xPos, yPos, sizeOfSquare, sizeOfSquare, null);
     }
 }
