@@ -1,3 +1,3 @@
 ## DESCRIPTION
 
-Simle TowerDefence game
+Simple TowerDefence game
