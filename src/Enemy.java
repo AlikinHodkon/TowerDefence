@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 
 public abstract class Enemy extends GameObject implements Killable{
@@ -5,6 +6,7 @@ public abstract class Enemy extends GameObject implements Killable{
     String color;
     int speed;
     int health;
+    Color colorCode;
     public void move(){
         if (xPos != 5*sizeOfSquare && yPos == 5*sizeOfSquare){
             xPos -= speed;
@@ -52,4 +54,5 @@ public abstract class Enemy extends GameObject implements Killable{
         else return false;
     }
     public abstract void draw(Graphics g);
+    protected abstract void changeColor();
 }

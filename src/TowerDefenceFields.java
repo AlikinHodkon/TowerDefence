@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -10,7 +13,7 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
     private int progressHealth = 1;
     private int kills = 0;
     private int boardHeight;
-
+    private int score, bestScore;
 
     private Road road;
     private Money money;
@@ -32,6 +35,19 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
         road = new Road();
 
         castle = new Castle(3);
+        
+        try{
+            File maxScore = new File("Score.bin");
+            FileInputStream inputStream = new FileInputStream(maxScore);
+            byte[] previousScore = new byte[1064];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(previousScore)) != -1) {
+                bestScore = Integer.parseInt(new String(previousScore, 0, bytesRead));    
+            }
+            inputStream.close();
+        }catch(Exception e){
+            bestScore = 0;
+        }
 
         enemy.add(new EnemyRed(32*sizeOfSquare, 5*sizeOfSquare, progressHealth));
         gameloop = new Timer(100, this);
@@ -49,7 +65,6 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
         //     g.drawLine(i*sizeOfSquare, 0, i*sizeOfSquare, boardHeight);
         //     g.drawLine(0, i*sizeOfSquare, boardWidth, i*sizeOfSquare);
         // }
-
         road.draw(g);
 
         if (!enemy.isEmpty()){
@@ -66,10 +81,34 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
             }
         }
 
+        g.setColor(Color.YELLOW);
+        g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 24));
+        g.drawString("Money: "+money.getMoney(), 315, 70);
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 24));
+        g.drawString("Score: "+score, 115, 70);
+
+        g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 24));
+        g.drawString("Best Score: "+bestScore, 515, 70);
+
         if (!gameloop.isRunning()){
             g.setColor(new Color(180, 0, 0));
             g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 140));
             g.drawString("Game Over", sizeOfSquare+12, boardHeight/2);
+            money.setMoney(0);
+            if (score > bestScore){
+                File maxScore = new File("Score.bin");
+                try{
+                    maxScore.createNewFile();
+                    FileOutputStream outputStream = new FileOutputStream(maxScore);
+                    byte[] buffer = Integer.toString(score).getBytes();
+                    outputStream.write(buffer);
+                    outputStream.close();
+                }catch(Exception e){
+                    return;
+                }
+            }
         }
 
     }
@@ -99,12 +138,14 @@ public class TowerDefenceFields extends JPanel implements ActionListener {
             for (Tower t : towers) {
                 for (Enemy enem : enemy) {
                     if (t.attack(enem)){
+                        enem.changeColor();
                         enem.setHealth(enem.getHealth()-1);
                         if (enem.isDead()){
                             enemy.remove(enem);
                             kill = true;
                             kills++;
-                            if (kills % 30 == 0) progressHealth++;
+                            score+=50;
+                            if (kills % 75 == 0) progressHealth++;
                             break;
                         }
                     }

@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.stream.IntStream;
 
 import javax.swing.*;
 
@@ -21,12 +22,12 @@ public class App{
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Money money = new Money(75);
+        Money money = new Money(150);
         TowerDefenceFields tw = new TowerDefenceFields(boardHeight, boardWidth, money);
         frame.add(tw);
         money.changeMoney();
         money.setBackground(Color.BLACK);
-        money.setForeground(Color.RED);
+        money.setForeground(Color.BLACK);
         tw.add(money);
         JButton buttonRed = new JButton("TowerRed");
         tw.add(buttonRed);
@@ -94,6 +95,7 @@ class MouseClickAction implements MouseListener{
     public void mouseClicked(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
+        if (check(x, y)) return;
         if (money.getMoney() >= 25){
             Tower tower;
             if (App.getisRedPressed()){
@@ -124,6 +126,28 @@ class MouseClickAction implements MouseListener{
                 }
             }
         }
+    }
+
+    private boolean check(int x, int y){
+        if (IntStream.range(105, 135).anyMatch(n -> n == y) && IntStream.range(100, 800).anyMatch(n -> n == x)){
+            return true;
+        }
+        if (IntStream.range(130, 260).anyMatch(n -> n == y) && IntStream.range(105, 150).anyMatch(n -> n == x)){
+            return true;
+        }
+        if (IntStream.range(230, 275).anyMatch(n -> n == y) && IntStream.range(105, 675).anyMatch(n -> n == x)){
+            return true;
+        }
+        if (IntStream.range(230, 525).anyMatch(n -> n == y) && IntStream.range(630, 675).anyMatch(n -> n == x)){
+            return true;
+        }
+        if (IntStream.range(475, 525).anyMatch(n -> n == y) && IntStream.range(190, 650).anyMatch(n -> n == x)){
+            return true;
+        }
+        if (IntStream.range(445, 555).anyMatch(n -> n == y) && IntStream.range(100, 200).anyMatch(n -> n == x)){
+            return true;
+        }        
+        return false;
     }
 
     @Override
@@ -203,12 +227,12 @@ public void actionPerformed(ActionEvent event){
     App.setisPurplePressed(false);
     App.setisWhitePressed(false);
     frame.remove(tw);
-    Money money = new Money(75);
+    Money money = new Money(150);
     TowerDefenceFields tw = new TowerDefenceFields(boardHeight, boardWidth, money);
     frame.add(tw);
     money.changeMoney();
     money.setBackground(Color.BLACK);
-    money.setForeground(Color.RED);
+    money.setForeground(Color.BLACK);
     tw.add(money);
     JButton buttonRed = new JButton("TowerRed");
     tw.add(buttonRed);
